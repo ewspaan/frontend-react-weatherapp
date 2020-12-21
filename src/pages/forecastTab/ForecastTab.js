@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import './ForecastTab.css';
 
-const apiKey = "6959bb4da6b7873072f25793f953025f";
+const apiKey = "";
 
 function ForecastTab({coordinates}) {
     const [forecast,setForcast] = useState(null);

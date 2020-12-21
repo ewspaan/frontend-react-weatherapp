@@ -6,7 +6,7 @@ import MetricSlider from './components/metricSlider/MetricSlider';
 import './App.css';
 import ForecastTab from "./pages/forecastTab/ForecastTab";
 
-const apiKey = "6959bb4da6b7873072f25793f953025f";
+const apiKey = "";
 
 
 function App() {
