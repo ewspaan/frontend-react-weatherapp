@@ -1,26 +1,49 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import SearchBar from './components/searchBar/SearchBar';
 import TabBarMenu from './components/tabBarMenu/TabBarMenu';
 import MetricSlider from './components/metricSlider/MetricSlider';
 import './App.css';
+import ForecastTab from "./pages/forecastTab/ForecastTab";
+
+const apiKey = "6959bb4da6b7873072f25793f953025f";
+
 
 function App() {
+  const [weatherData,setWeatherData] = useState(null);
+  const [location, setLocation] = useState('');
+
+  useEffect(() => {
+  async function fetchData() {
+    try {
+      const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location},nl&appid=${apiKey}&lang=nl`);
+      setWeatherData(result.data);
+      console.log(result.data)
+    } catch (e) {
+      console.error(e);
+    }
+   };
+    if (location) {
+      fetchData();
+    }
+
+  }, [location]);
   return (
     <>
       <div className="weather-container">
 
         {/*HEADER -------------------- */}
         <div className="weather-header">
-          <SearchBar/>
+          <SearchBar setLocationHandler={setLocation}/>
 
           <span className="location-details">
-            <h2>Bewolkt</h2>
-            <h3> </h3>
-            <h1>14 &deg;</h1>
-
-            <button type="button">
-              Haal data op!
-            </button>
+            {weatherData &&
+                <>
+                  <h2>{weatherData.weather[0].description}</h2>
+                  <h3>{weatherData.name} </h3>
+                  <h1>{weatherData.main.temp}</h1>
+                </>
+            }
           </span>
         </div>
 
@@ -29,7 +52,7 @@ function App() {
           <TabBarMenu/>
 
           <div className="tab-wrapper">
-            Alle inhoud van de tabbladen komt hier!
+            <ForecastTab coordinates={weatherData && weatherData.coord}/>
           </div>
         </div>
 
